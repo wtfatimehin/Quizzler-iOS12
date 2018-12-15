@@ -23,8 +23,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let firstQuestions = allQuestions.list[0]
-        questionLabel.text = firstQuestions.questionText
+        nextQuestion()
     }
 
 
@@ -56,8 +55,16 @@ class ViewController: UIViewController {
         questionLabel.text = allQuestions.list[questionNumber].questionText
         }
         else {
-            print("end of qiuiz")
-            questionNumber = 0
+            //UIAlerts
+            let alert = UIAlertController(title: "Awesome", message: "You've finished all the questions do you want to start over?", preferredStyle: .alert)
+            
+            let restartAction = UIAlertAction(title: "Restart", style: .default) { (UIAlertAction) in
+                self.startOver()
+            }
+            
+            alert.addAction(restartAction)
+            
+            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -79,7 +86,8 @@ class ViewController: UIViewController {
     
     
     func startOver() {
-   
+        questionNumber = 0
+        nextQuestion()
     }
     
 
