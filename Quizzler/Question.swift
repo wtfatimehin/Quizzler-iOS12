@@ -10,10 +10,10 @@ import Foundation
 
 //what a question should look like
 class Question {
-    
+    //properties
     let questionText: String
     let answer: Bool
-    
+    //Actions
     init(text: String, correctAnswer: Bool) {
         questionText = text
         answer = correctAnswer
