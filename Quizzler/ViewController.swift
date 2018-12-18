@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     let allQuestions = QuestionBank()
     var pickedAnswer: Bool = false
     var questionNumber: Int = 0
+    var score: Int = 0
     
     
     @IBOutlet weak var questionLabel: UILabel!
@@ -37,7 +38,7 @@ class ViewController: UIViewController {
         
         checkAnswer()
         
-        questionNumber += 1
+        questionNumber = questionNumber + 1
         
         nextQuestion()
         
@@ -46,6 +47,9 @@ class ViewController: UIViewController {
     
     
     func updateUI() {
+        scoreLabel.text = "Score: \(score)"
+        progressLabel.text = "\(questionNumber + 1) / 13"
+        progressBar.frame.size.width = (view.frame.size.width / 13 ) * CGFloat(questionNumber + 1)
       
     }
     
@@ -53,6 +57,8 @@ class ViewController: UIViewController {
     func nextQuestion() {
         if questionNumber <= 12 {
         questionLabel.text = allQuestions.list[questionNumber].questionText
+            
+            updateUI()
         }
         else {
             //UIAlerts
@@ -60,12 +66,15 @@ class ViewController: UIViewController {
             
             let restartAction = UIAlertAction(title: "Restart", style: .default) { (UIAlertAction) in
                 self.startOver()
+            
             }
             
             alert.addAction(restartAction)
             
             present(alert, animated: true, completion: nil)
         }
+        
+        
     }
     
     
@@ -73,10 +82,13 @@ class ViewController: UIViewController {
         let correctAnswer = allQuestions.list[questionNumber].answer
         
         if correctAnswer == pickedAnswer {
-            print("You got it")
+            
+            ProgressHUD.showSuccess("Correct")
+            
+            score = score + 1
         }
         else {
-            print("wrong!")
+            ProgressHUD.showError("Wrong")
         }
         
         
@@ -86,7 +98,9 @@ class ViewController: UIViewController {
     
     
     func startOver() {
+        
         questionNumber = 0
+        score = 0
         nextQuestion()
     }
     
